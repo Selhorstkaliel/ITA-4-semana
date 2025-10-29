@@ -1,0 +1,14 @@
+target/
+.classpath
+.project
+.settings/
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+.idea/
+*.log
+node_modules/
+dist/
+build/
