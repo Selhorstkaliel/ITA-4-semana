@@ -84,59 +84,73 @@ The application uses the following database structure:
 - `user_id` (INT, Foreign Key)
 - `created_at` (TIMESTAMP)
 
-## Setup Instructions
+## Quick Start
 
 ### 1. Database Setup
 
 1. Install MySQL Server
-2. Create the database:
+2. Create the databases:
 ```sql
 CREATE DATABASE forum_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
-
-3. Create the test database:
-```sql
 CREATE DATABASE forum_db_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-4. Run the schema script:
+3. Run the schema script:
 ```bash
 mysql -u root -p forum_db < src/main/resources/schema.sql
 mysql -u root -p forum_db_test < src/main/resources/schema.sql
 ```
 
-5. Update database credentials in:
-   - `src/main/resources/db.properties`
-   - `src/test/resources/db.properties`
+4. (Optional) Load sample data:
+```bash
+mysql -u root -p forum_db < src/main/resources/sample-data.sql
+```
+
+5. Update database credentials in `src/main/resources/db.properties` and `src/test/resources/db.properties`
 
 ### 2. Build the Project
 
 ```bash
-mvn clean install
+mvn clean package
 ```
 
-### 3. Deploy to Application Server
+### 3. Deploy to Tomcat
 
-1. Deploy the generated WAR file (`target/forum.war`) to your application server (Tomcat, GlassFish, etc.)
-2. Access the application at: `http://localhost:8080/forum`
+```bash
+cp target/forum.war $CATALINA_HOME/webapps/
+$CATALINA_HOME/bin/startup.sh
+```
+
+Access the application at: `http://localhost:8080/forum`
+
+## Documentation
+
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Complete deployment guide with troubleshooting
+- **[TESTING.md](TESTING.md)** - Comprehensive testing guide (DBUnit & Selenium)
+- **[VIDEO_GUIDE.md](VIDEO_GUIDE.md)** - Step-by-step video demonstration guide
 
 ## Running Tests
 
-### Unit Tests (DBUnit)
+### DBUnit Tests
 
-Run DAO tests with DBUnit:
 ```bash
 mvn test -Dtest=*DAOTest
 ```
 
 ### Selenium Tests
 
-1. Ensure ChromeDriver is installed and in your PATH
-2. Start the application server
-3. Run Selenium tests:
 ```bash
+# Ensure application is deployed and running
 mvn test -Dtest=ForumSeleniumTest
 ```
+
+### All Tests
+
+```bash
+mvn test
+```
+
+For detailed testing instructions, see [TESTING.md](TESTING.md)
 
 ## Application Screens
 
